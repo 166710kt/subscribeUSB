@@ -1,4 +1,4 @@
-from dash import Dash, Input, Output, html, State, ctx
+from dash import Dash, Input, Output, html, State
 import dash_bootstrap_components as dbc
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.PULSE])
@@ -19,7 +19,6 @@ app.layout = dbc.Container([
                     {"key": "2", "src": "/assets/newsletter2.jpg", "img_style": {"max-height": "700px"}},
                     {"key": "3", "src": "/assets/newsletter3.jpg", "img_style": {"max-height": "700px"}},
                 ],
-
                 controls=True,
                 indicators=True,
                 interval=2000,
@@ -62,10 +61,9 @@ app.layout = dbc.Container([
     prevent_initial_call=True
 )
 def greet(button1_clicks, button2_clicks, name, email):
-    button_clicked = ctx.triggered[0]["prop_id"].split(".")[0]
-    if button_clicked == "button1":
+    if button1_clicks is not None:
         return f"Welcome {name}!" if name else "Please enter name"
-    elif button_clicked == "button2":
+    elif button2_clicks is not None:
         if name and email:
             return f"Your application has been submitted. Name: {name}, E-mail: {email}"
         else:
@@ -74,4 +72,3 @@ def greet(button1_clicks, button2_clicks, name, email):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
